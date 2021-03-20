@@ -23,7 +23,7 @@ namespace RozetkaSpecFlow.Hooks
             container.RegisterInstanceAs<IWebDriver>(webdriver);
         }
 
-        [AfterStep]
+        [AfterScenario]
         public void DestroyWebDriver()
         {
             IWebDriver driver = container.Resolve<IWebDriver>();
