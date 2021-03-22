@@ -1,11 +1,9 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System;
+using RozetkaSpecFlow.ExtensionMethod;
 
 namespace RozetkaSpecFlow.Pages.PagesComponents
 {
-    class CartComponent
+    public class CartComponent
     {
         private readonly IWebDriver driver;
         public CartComponent(IWebDriver driver)
@@ -13,12 +11,11 @@ namespace RozetkaSpecFlow.Pages.PagesComponents
             this.driver = driver;
         }
 
-        private IWebElement ProductTitle => (new WebDriverWait(driver, TimeSpan.FromSeconds(10)))
-        .Until(ExpectedConditions.ElementExists(By.ClassName("cart-product__title")));
+        private IWebElement txtProductTitle => driver.FindElement(By.ClassName("cart-product__title"), 5);
 
-        public String GetProductTitle()
+        public string GetProductTitle()
         {
-            return ProductTitle.Text;
+            return txtProductTitle.Text;
         }
     }
 }

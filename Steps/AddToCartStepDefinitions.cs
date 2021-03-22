@@ -15,12 +15,12 @@ namespace RozetkaSpecFlow.Steps
         private HeaderPage headerPage;
         private ProductPage productPage;
 
-        public AddToCartStepDefinitions(IWebDriver  driver)
+        public AddToCartStepDefinitions(IWebDriver driver)
         {
             this.driver = driver;
         }
 
-        [Given(@"opened home page ""Rozetka"" site")]
+        [Given(@"i opened home page ""Rozetka"" site")]
         public void GivenOpenedHomePageSite()
         {
             driver.Navigate().GoToUrl("https://rozetka.com.ua/");
@@ -28,22 +28,22 @@ namespace RozetkaSpecFlow.Steps
             headerPage = new HeaderPage(driver);
         }
 
-        [When(@"search for a product by product ID in the search field")]
-        public void WhenSearchForAProductByProductIDInTheSearchField()
+        [When(@"i search for a product by product ID ""(.*)"" in the search field")]
+        public void WhenSearchForAProductByProductIDInTheSearchField(int id)
         {
-            productPage = headerPage.FindProduct("191882153");
+            productPage = headerPage.FindProduct(id);
         }
 
-        [When(@"add product to cart")]
+        [When(@"i add product to cart")]
         public void WhenAddProductToCart()
         {
             productPage.AddToCart();
         }
 
-        [Then(@"check if the item has been added to the cart")]
+        [Then(@"i check if the item has been added to the cart")]
         public void ThenCheckIfTheItemHasBeenAddedToTheCart()
         {
-            Assert.AreEqual(productPage.GetProductTitle(), headerPage.OpenCart().GetProductTitle());
+            Assert.AreEqual(productPage.GetProductTitle(), headerPage.OpenCart().GetProductTitle(), "The item hasn't been added to cart");
         }
 
 

@@ -1,11 +1,9 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System;
+using RozetkaSpecFlow.ExtensionMethod;
 
 namespace RozetkaSpecFlow.Pages
 {
-    class ProductPage
+    public class ProductPage
     {
         private readonly IWebDriver driver;
         public ProductPage(IWebDriver driver)
@@ -13,21 +11,18 @@ namespace RozetkaSpecFlow.Pages
             this.driver = driver;
         }
 
-        private IWebElement ProductTitle => (new WebDriverWait(driver, TimeSpan.FromSeconds(10)))
-            .Until(ExpectedConditions.ElementExists(By.ClassName("product__title")));
-        private IWebElement BuyButton => (new WebDriverWait(driver, TimeSpan.FromSeconds(10)))
-            .Until(ExpectedConditions.ElementExists(By.ClassName("button_size_large")));
+        private IWebElement txtProductTitle => driver.FindElement(By.ClassName("product__title"), 5);
+        private IWebElement btnBuy => driver.FindElement(By.ClassName("button_size_large"), 5);
 
-        public String GetProductTitle()
+        public string GetProductTitle()
         {
-            return ProductTitle.Text;
+            return txtProductTitle.Text;
         }
 
         public void AddToCart()
         {
-            BuyButton.Click();
+            btnBuy.Click();
             driver.Navigate().Refresh();
         }
-
     }
 }

@@ -1,12 +1,10 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+using RozetkaSpecFlow.ExtensionMethod;
 using RozetkaSpecFlow.Pages.PagesComponents;
-using SeleniumExtras.WaitHelpers;
-using System;
 
 namespace RozetkaSpecFlow.Pages
 {
-    class HeaderPage
+    public class HeaderPage
     {
         private readonly IWebDriver driver;
         public HeaderPage(IWebDriver driver)
@@ -14,23 +12,20 @@ namespace RozetkaSpecFlow.Pages
             this.driver = driver;
         }
 
-        private IWebElement SearchField => (new WebDriverWait(driver, TimeSpan.FromSeconds(10)))
-            .Until(ExpectedConditions.ElementExists(By.Name("search")));
-        private IWebElement SearchButton => (new WebDriverWait(driver, TimeSpan.FromSeconds(10)))
-            .Until(ExpectedConditions.ElementExists(By.CssSelector("form > button")));
-        private IWebElement CartButton => (new WebDriverWait(driver, TimeSpan.FromSeconds(10)))
-            .Until(ExpectedConditions.ElementExists(By.ClassName("header__button--active")));
+        private IWebElement searchField => driver.FindElement(By.Name("search"), 5);
+        private IWebElement btnSearch => driver.FindElement(By.CssSelector("form > button"), 5);
+        private IWebElement btnCart => driver.FindElement(By.ClassName("header__button--active"), 5);
 
-        public ProductPage FindProduct(String productId)
+        public ProductPage FindProduct(int productId)
         {
-            SearchField.SendKeys(productId);
-            SearchButton.Click();
+            searchField.SendKeys(productId.ToString());
+            btnSearch.Click();
             return new ProductPage(driver);
         }
 
         public CartComponent OpenCart()
         {
-            CartButton.Click();
+            btnCart.Click();
             return new CartComponent(driver);
         }
     }
